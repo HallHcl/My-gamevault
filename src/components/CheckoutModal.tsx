@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { CartItem } from '../types';
+import { DeliveredAsset } from '../types';
 import { 
   X, 
   QrCode, 
@@ -13,29 +13,32 @@ import {
   ShieldCheck, 
   Key, 
   AlertTriangle,
-  Gift
+  Gift,
+  Loader2
 } from 'lucide-react';
 
 interface CheckoutModalProps {
   isOpen: boolean;
   onClose: () => void;
-  items: CartItem[];
+  orderId: string | null;
   totalAmount: number;
-  onClearCart: () => void;
+  onPaymentSuccess: (deliveredAssets: DeliveredAsset[]) => void;
 }
 
 export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   isOpen,
   onClose,
-  items,
+  orderId,
   totalAmount,
-  onClearCart
+  onPaymentSuccess
 }) => {
   const [paymentMethod, setPaymentMethod] = useState<'promptpay' | 'truemoney'>('promptpay');
   const [truemoneyVoucher, setTruemoneyVoucher] = useState('');
   const [step, setStep] = useState<'payment' | 'processing' | 'success'>('payment');
   const [timeLeft, setTimeLeft] = useState(300); // 5 mins
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [deliveredAssets, setDeliveredAssets] = useState<DeliveredAsset[]>([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Countdown timer
   useEffect(() => {
@@ -52,17 +55,44 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   const seconds = timeLeft % 60;
   const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
-  const handleSimulatePayment = () => {
+  // Backend-First Payment Verification
+  const handleConfirmPayment = async () => {
+    if (!orderId) {
+      setErrorMessage('ไม่พบ Order ID กรุณาลองใหม่อีกครั้ง');
+      return;
+    }
+
     if (paymentMethod === 'truemoney' && !truemoneyVoucher.trim()) {
-      alert('กรุณากรอกลิงก์ซองของขวัญ TrueMoney หรือกดตัวอย่างลิงก์ทดสอบ');
+      alert('กรุณากรอกลิงก์ซองของขวัญ TrueMoney หรือกดสุ่มลิงก์จำลอง');
       return;
     }
 
     setStep('processing');
-    setTimeout(() => {
+    setErrorMessage('');
+
+    try {
+      const res = await fetch('/api/orders/verify-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId,
+          paymentMethod,
+          proof: paymentMethod === 'truemoney' ? truemoneyVoucher : 'promptpay_qr_verified',
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'การตรวจสอบการชำระเงินล้มเหลว');
+      }
+
+      setDeliveredAssets(data.deliveredAssets || []);
       setStep('success');
-      onClearCart();
-    }, 1200);
+      onPaymentSuccess(data.deliveredAssets || []);
+    } catch (err: any) {
+      setErrorMessage(err.message || 'เกิดข้อผิดพลาดในการตรวจสอบยอดเงิน');
+      setStep('payment');
+    }
   };
 
   const handleCopyText = (id: string, text: string) => {
@@ -97,12 +127,18 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
         {/* Modal Body */}
         <div className="overflow-y-auto p-5 sm:p-6">
+          {errorMessage && (
+            <div className="p-3 mb-4 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs">
+              {errorMessage}
+            </div>
+          )}
+
           {step === 'payment' && (
             <div className="flex flex-col items-center text-center space-y-4">
               {/* Payment Details */}
               <div className="w-full p-3 rounded-xl bg-[#1a1f27] border border-[#30475E] flex items-center justify-between text-xs">
                 <span className="text-[#DDDDDD]/70">เลขอ้างอิงคำสั่งซื้อ:</span>
-                <span className="font-mono text-[#F05454] font-bold">GV-2026-98124</span>
+                <span className="font-mono text-[#F05454] font-bold">{orderId || 'PENDING-ORDER'}</span>
               </div>
 
               {/* Payment Tabs: PromptPay vs TrueMoney */}
@@ -144,13 +180,12 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                       <span className="font-bold text-xs tracking-wider text-[#003d6d]">PROMPTPAY</span>
                     </div>
 
-                    {/* Simulated QR Code Graphic */}
                     <div className="my-3 p-2 border-2 border-slate-900 rounded-lg">
                       <QrCode className="w-40 h-40 text-slate-900" />
                     </div>
 
                     <div className="text-center">
-                      <span className="text-[11px] text-slate-500 block">ยอดชำระสุทธิ</span>
+                      <span className="text-[11px] text-slate-500 block">ยอดชำระสุทธิ (คำนวณโดย Backend)</span>
                       <span className="text-2xl font-black text-slate-900">
                         ฿{totalAmount.toLocaleString()}
                       </span>
@@ -163,7 +198,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                       กรุณาสแกนจ่ายภายในเวลา: <span className="font-mono font-bold text-[#F05454]">{formattedTime}</span>
                     </p>
                     <p className="text-[11px] text-[#DDDDDD]/60">
-                      ระบบ SlipOK AI จะตรวจจับสลิปและปลดล็อกข้อมูลส่งมอบทันทีอัตโนมัติ
+                      ระบบ Backend AI จะตรวจจับสลิปและปลดล็อกข้อมูลส่งมอบทันทีอัตโนมัติ
                     </p>
                   </div>
                 </>
@@ -199,7 +234,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                       />
                       <button
                         type="button"
-                        onClick={() => setTruemoneyVoucher('https://gift.truemoney.com/campaign/?v=demo_sample_token_889')}
+                        onClick={() => setTruemoneyVoucher('https://gift.truemoney.com/campaign/?v=sample_voucher_key')}
                         className="px-2.5 py-1 text-[11px] bg-[#30475E] hover:bg-[#30475E]/80 text-[#DDDDDD] font-semibold rounded-lg border border-[#30475E] shrink-0"
                       >
                         สุ่มลิงก์จำลอง
@@ -209,13 +244,13 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 </div>
               )}
 
-              {/* Mock Trigger Button */}
+              {/* Confirm Pay Button */}
               <button
-                onClick={handleSimulatePayment}
+                onClick={handleConfirmPayment}
                 className="w-full py-3.5 px-4 rounded-xl font-bold text-sm bg-[#F05454] hover:bg-[#d94343] text-white shadow-lg shadow-[#F05454]/30 transition-all flex items-center justify-center gap-2 mt-2"
               >
                 <CheckCircle2 className="w-4 h-4" />
-                <span>ยืนยันการชำระเงิน (Simulate Instant Delivery)</span>
+                <span>ยืนยันการชำระเงิน (Verify with Backend)</span>
               </button>
             </div>
           )}
@@ -223,9 +258,9 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           {step === 'processing' && (
             <div className="py-12 flex flex-col items-center text-center space-y-4">
               <div className="w-14 h-14 rounded-full border-4 border-[#30475E] border-t-[#F05454] animate-spin" />
-              <h4 className="text-base font-bold text-white">กำลังตรวจสอบยอดชำระและถอดรหัสสินค้าดิจิทัล...</h4>
+              <h4 className="text-base font-bold text-white">Backend กำลังตรวจสอบยอดและดึงข้อมูลจาก Vault...</h4>
               <p className="text-xs text-[#DDDDDD]/70 max-w-xs">
-                ระบบ SlipOK / TrueMoney API กำลังยืนยันยอดเงินและสร้าง License Key เฉพาะเครื่องให้คุณ
+                ระบบกำลังทำการแยกรายได้ 90%/10% และส่งมอบรหัสผ่านอย่างปลอดภัย
               </p>
             </div>
           )}
@@ -238,42 +273,44 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   <CheckCircle2 className="w-6 h-6 text-[#F05454]" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-white">ชำระเงินสำเร็จ & จัดส่งข้อมูลแล้ว!</h4>
+                  <h4 className="text-sm font-bold text-white">ชำระเงินสำเร็จ & ปลดล็อกของจาก Server สำเร็จ!</h4>
                   <p className="text-xs text-[#DDDDDD]/80">
-                    ข้อมูลสินค้าและสคริปต์พร้อม License Key ถูกส่งมอบด้านล่างนี้
+                    ข้อมูลไอดีและสคริปต์ถูกถอดรหัสและส่งมอบให้เฉพาะบัญชีของคุณเท่านั้น
                   </p>
                 </div>
               </div>
 
-              {/* Unlocked Credentials & Download Keys */}
+              {/* Unlocked Credentials from Server Response */}
               <div className="space-y-3">
                 <h5 className="text-xs font-bold text-[#DDDDDD] uppercase tracking-wider flex items-center gap-1.5">
                   <Key className="w-3.5 h-3.5 text-[#F05454]" />
                   <span>ข้อมูลที่ได้รับมอบ (Digital Vault):</span>
                 </h5>
 
-                {items.map((item, idx) => (
-                  <div key={idx} className="p-4 rounded-xl bg-[#1a1f27] border border-[#30475E] space-y-3">
-                    <div className="flex items-center justify-between border-b border-[#30475E]/60 pb-2">
-                      <span className="text-xs font-bold text-white line-clamp-1">
-                        {item.product.title}
-                      </span>
-                      <span className="text-[10px] font-semibold text-[#F05454] uppercase bg-[#F05454]/10 px-2 py-0.5 rounded border border-[#F05454]/20">
-                        {item.product.game}
-                      </span>
-                    </div>
+                {deliveredAssets.length === 0 ? (
+                  <p className="text-xs text-[#DDDDDD]/60">จัดส่งสินค้าเรียบร้อย</p>
+                ) : (
+                  deliveredAssets.map((asset, idx) => (
+                    <div key={idx} className="p-4 rounded-xl bg-[#1a1f27] border border-[#30475E] space-y-3">
+                      <div className="flex items-center justify-between border-b border-[#30475E]/60 pb-2">
+                        <span className="text-xs font-bold text-white line-clamp-1">
+                          {asset.productTitle}
+                        </span>
+                        <span className="text-[10px] font-semibold text-[#F05454] uppercase bg-[#F05454]/10 px-2 py-0.5 rounded border border-[#F05454]/20">
+                          {asset.type.toUpperCase()}
+                        </span>
+                      </div>
 
-                    {/* Reveal Credentials or Links */}
-                    {item.product.sampleAsset && (
+                      {/* Content Box */}
                       <div className="space-y-2">
                         <div className="relative p-3 rounded-lg bg-[#222831] border border-[#30475E] font-mono text-xs text-[#DDDDDD] break-all whitespace-pre-wrap leading-relaxed">
-                          {item.product.sampleAsset.content}
+                          {asset.content}
                           <button
-                            onClick={() => handleCopyText(item.product.id, item.product.sampleAsset!.content)}
+                            onClick={() => handleCopyText(`asset-${idx}`, asset.content)}
                             className="absolute top-2 right-2 p-1.5 rounded bg-[#30475E] hover:bg-[#30475E]/80 text-[#DDDDDD] transition-colors"
                             title="คัดลอกข้อมูล"
                           >
-                            {copiedId === item.product.id ? (
+                            {copiedId === `asset-${idx}` ? (
                               <Check className="w-3.5 h-3.5 text-[#F05454]" />
                             ) : (
                               <Copy className="w-3.5 h-3.5" />
@@ -281,33 +318,37 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                           </button>
                         </div>
 
-                        {item.product.sampleAsset.type === 'download_link' && (
+                        {asset.type === 'download_link' && (
                           <div className="space-y-2 pt-1">
-                            <div className="p-2.5 rounded-lg bg-[#222831] border border-[#30475E] text-xs">
-                              <span className="text-[#DDDDDD]/60 text-[10px] block">LICENSE KEY (ผูกเครื่อง HWID):</span>
-                              <span className="font-mono text-[#F05454] font-bold">FVM-VAULT-2026-X992-AUTH</span>
-                            </div>
+                            {asset.licenseKey && (
+                              <div className="p-2.5 rounded-lg bg-[#222831] border border-[#30475E] text-xs">
+                                <span className="text-[#DDDDDD]/60 text-[10px] block">LICENSE KEY:</span>
+                                <span className="font-mono text-[#F05454] font-bold">{asset.licenseKey}</span>
+                              </div>
+                            )}
                             <a
-                              href={item.product.sampleAsset.content}
+                              href={asset.content}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#F05454] hover:bg-[#d94343] text-white text-xs font-bold transition-colors"
                             >
                               <Download className="w-3.5 h-3.5" />
-                              <span>ดาวน์โหลดไฟล์สคริปต์ FiveM (ZIP)</span>
+                              <span>ดาวน์โหลดไฟล์สคริปต์ (ZIP)</span>
                               <ExternalLink className="w-3 h-3 ml-0.5" />
                             </a>
                           </div>
                         )}
 
-                        <p className="text-[11px] text-[#DDDDDD]/70 flex items-start gap-1">
-                          <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5 text-[#F05454]" />
-                          <span>{item.product.sampleAsset.note}</span>
-                        </p>
+                        {asset.note && (
+                          <p className="text-[11px] text-[#DDDDDD]/70 flex items-start gap-1">
+                            <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5 text-[#F05454]" />
+                            <span>{asset.note}</span>
+                          </p>
+                        )}
                       </div>
-                    )}
-                  </div>
-                ))}
+                    </div>
+                  ))
+                )}
               </div>
 
               {/* Action Buttons */}

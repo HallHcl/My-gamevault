@@ -19,6 +19,7 @@ interface NavbarProps {
   onOpenCart: () => void;
   onOpenTopUp: () => void;
   onOpenFinancial?: () => void;
+  onOpenAddProduct?: () => void;
   searchQuery: string;
   onSearchChange: (q: string) => void;
   selectedCategory: ProductCategory;
@@ -31,6 +32,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenCart,
   onOpenTopUp,
   onOpenFinancial,
+  onOpenAddProduct,
   searchQuery,
   onSearchChange,
   selectedCategory,
@@ -39,16 +41,26 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <header className="sticky top-0 z-40 w-full border-b border-[#30475E]/60 bg-[#222831]/95 backdrop-blur-md">
       {/* Top announcement bar */}
-      <div className="bg-[#30475E]/80 border-b border-[#30475E] px-4 py-1.5 text-xs text-center text-[#DDDDDD] flex items-center justify-center gap-2">
+      <div className="bg-[#30475E]/80 border-b border-[#30475E] px-4 py-1.5 text-xs text-center text-[#DDDDDD] flex flex-wrap items-center justify-center gap-2">
         <span className="flex h-2 w-2 rounded-full bg-[#F05454] animate-pulse" />
         <span className="font-semibold text-white">ระบบ Auto-Delivery & Auto-Payout เปิดทำงานปกติ:</span> 
         <span className="text-[#DDDDDD]/90">จัดส่งไอดีและตัดโอนแบ่งเงินให้คนขายใน 3.2 วินาที</span>
-        <button 
-          onClick={onOpenFinancial}
-          className="inline-flex items-center text-white font-bold bg-[#F05454] hover:bg-[#d94343] px-2.5 py-0.5 rounded text-[11px] shadow-sm ml-2 cursor-pointer transition-colors"
-        >
-          📊 ดูระบบบัญชีแยกเงิน (Admin View) <ChevronRight className="w-3 h-3 ml-0.5" />
-        </button>
+        <div className="flex items-center gap-2">
+          {onOpenAddProduct && (
+            <button 
+              onClick={onOpenAddProduct}
+              className="inline-flex items-center text-white font-bold bg-emerald-600 hover:bg-emerald-500 px-2.5 py-0.5 rounded text-[11px] shadow-sm cursor-pointer transition-colors"
+            >
+              + เพิ่มสินค้าจริง (Vault)
+            </button>
+          )}
+          <button 
+            onClick={onOpenFinancial}
+            className="inline-flex items-center text-white font-bold bg-[#F05454] hover:bg-[#d94343] px-2.5 py-0.5 rounded text-[11px] shadow-sm cursor-pointer transition-colors"
+          >
+            📊 ดูระบบบัญชีแยกเงิน (Admin View) <ChevronRight className="w-3 h-3 ml-0.5" />
+          </button>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

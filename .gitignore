@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local persistent database (contains sensitive vault assets / passwords)
+/data/*.json
+!/data/.gitkeep

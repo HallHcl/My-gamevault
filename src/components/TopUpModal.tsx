@@ -29,7 +29,7 @@ export const TopUpModal: React.FC<TopUpModalProps> = ({ isOpen, onClose, onSucce
 
   const currentPayAmount = customAmount ? parseFloat(customAmount) || 0 : amount;
 
-  const handleConfirmTopUp = () => {
+  const handleConfirmTopUp = async () => {
     if (method === 'truemoney' && !voucherUrl.trim()) {
       alert('กรุณากรอกลิงก์ซองของขวัญ TrueMoney');
       return;
@@ -42,12 +42,30 @@ export const TopUpModal: React.FC<TopUpModalProps> = ({ isOpen, onClose, onSucce
     }
 
     setIsProcessing(true);
-    setTimeout(() => {
-      setIsProcessing(false);
+    try {
+      const res = await fetch('/api/wallet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: finalAmount,
+          method,
+          voucherUrl: method === 'truemoney' ? voucherUrl.trim() : undefined,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'การเติมเงินล้มเหลว');
+      }
+
       setIsSuccess(true);
       setAddedAmount(finalAmount);
       onSuccess(finalAmount);
-    }, 1500);
+    } catch (err: any) {
+      alert(err.message || 'เกิดข้อผิดพลาดในการเติมเงิน');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const handleResetAndClose = () => {

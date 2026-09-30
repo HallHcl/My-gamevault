@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { CartItem } from '../types';
-import { X, Trash2, Plus, Minus, ArrowRight, ShieldCheck, Tag } from 'lucide-react';
+import { X, Trash2, Plus, Minus, ArrowRight, ShieldCheck, Tag, Loader2 } from 'lucide-react';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -10,7 +10,7 @@ interface CartDrawerProps {
   items: CartItem[];
   onUpdateQuantity: (productId: string, delta: number) => void;
   onRemoveItem: (productId: string) => void;
-  onCheckout: () => void;
+  onCheckout: (couponCode?: string) => void;
 }
 
 export const CartDrawer: React.FC<CartDrawerProps> = ({
@@ -24,22 +24,43 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   const [discountCode, setDiscountCode] = useState('');
   const [appliedDiscount, setAppliedDiscount] = useState<number>(0);
   const [discountError, setDiscountError] = useState('');
+  const [isValidating, setIsValidating] = useState(false);
 
   if (!isOpen) return null;
 
   const subtotal = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
   const total = Math.max(0, subtotal - appliedDiscount);
 
-  const handleApplyCoupon = (e: React.FormEvent) => {
+  // Backend-First Coupon Validation
+  const handleApplyCoupon = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (discountCode.trim().toUpperCase() === 'VAULT100') {
-      setAppliedDiscount(100);
-      setDiscountError('');
-    } else if (discountCode.trim().toUpperCase() === 'PROGAMER') {
-      setAppliedDiscount(Math.round(subtotal * 0.1));
-      setDiscountError('');
-    } else {
-      setDiscountError('โค้ดส่วนลดไม่ถูกต้อง (ลองใช้: VAULT100 หรือ PROGAMER)');
+    if (!discountCode.trim()) return;
+
+    setIsValidating(true);
+    setDiscountError('');
+
+    try {
+      const res = await fetch('/api/coupons/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: items.map((i) => ({ productId: i.product.id, quantity: i.quantity })),
+          couponCode: discountCode.trim(),
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setAppliedDiscount(data.discountAmount);
+        setDiscountError('');
+      } else {
+        setAppliedDiscount(0);
+        setDiscountError(data.error || 'โค้ดส่วนลดไม่ถูกต้อง');
+      }
+    } catch {
+      setDiscountError('ไม่สามารถตรวจสอบโค้ดกับ Server ได้');
+    } finally {
+      setIsValidating(false);
     }
   };
 
@@ -146,17 +167,19 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 />
                 <button
                   type="submit"
-                  className="px-3 py-2 bg-[#30475E] hover:bg-[#30475E]/80 text-xs font-semibold rounded-lg text-white transition-colors border border-[#30475E]"
+                  disabled={isValidating}
+                  className="px-3 py-2 bg-[#30475E] hover:bg-[#30475E]/80 disabled:opacity-50 text-xs font-semibold rounded-lg text-white transition-colors border border-[#30475E] flex items-center gap-1"
                 >
-                  ใช้โค้ด
+                  {isValidating && <Loader2 className="w-3 h-3 animate-spin" />}
+                  <span>ใช้โค้ด</span>
                 </button>
               </form>
               {discountError && (
                 <p className="text-[11px] text-[#F05454] font-normal">{discountError}</p>
               )}
               {appliedDiscount > 0 && (
-                <p className="text-[11px] text-[#DDDDDD] font-normal">
-                  ✓ ใช้โค้ดส่วนลดสำเร็จ -฿{appliedDiscount.toLocaleString()}
+                <p className="text-[11px] text-emerald-400 font-normal">
+                  ✓ ยืนยันส่วนลดผ่าน Server: -฿{appliedDiscount.toLocaleString()}
                 </p>
               )}
 
@@ -184,16 +207,16 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
               {/* Checkout Button */}
               <button
-                onClick={onCheckout}
+                onClick={() => onCheckout(appliedDiscount > 0 ? discountCode.trim() : undefined)}
                 className="w-full py-3.5 rounded-xl font-bold text-sm bg-[#F05454] hover:bg-[#d94343] text-white shadow-lg shadow-[#F05454]/30 transition-all flex items-center justify-center gap-2"
               >
-                <span>ชำระเงินทันที</span>
+                <span>สร้างคำสั่งซื้อและชำระเงิน</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
               <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#DDDDDD]/60">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#F05454]" />
-                <span>การันตีความปลอดภัยและจัดส่งออโต้ 100%</span>
+                <span>คำนวณและตรวจสอบยอดเงินผ่าน Backend Server</span>
               </div>
             </div>
           )}
