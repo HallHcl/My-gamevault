@@ -18,6 +18,7 @@ interface NavbarProps {
   balance: number;
   onOpenCart: () => void;
   onOpenTopUp: () => void;
+  onOpenFinancial?: () => void;
   searchQuery: string;
   onSearchChange: (q: string) => void;
   selectedCategory: ProductCategory;
@@ -29,6 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   balance,
   onOpenCart,
   onOpenTopUp,
+  onOpenFinancial,
   searchQuery,
   onSearchChange,
   selectedCategory,
@@ -39,11 +41,14 @@ export const Navbar: React.FC<NavbarProps> = ({
       {/* Top announcement bar */}
       <div className="bg-[#30475E]/80 border-b border-[#30475E] px-4 py-1.5 text-xs text-center text-[#DDDDDD] flex items-center justify-center gap-2">
         <span className="flex h-2 w-2 rounded-full bg-[#F05454] animate-pulse" />
-        <span className="font-semibold text-white">ระบบ Auto-Delivery เปิดทำงานปกติ:</span> 
-        <span className="text-[#DDDDDD]/90">จัดส่งไอดีและสคริปต์ได้ทันที 24 ชม. เฉลี่ย 3.2 วินาที</span>
-        <span className="hidden sm:inline-flex items-center text-[#F05454] font-semibold cursor-pointer hover:underline ml-2">
-          ดูสถิติระบบ <ChevronRight className="w-3 h-3 ml-0.5" />
-        </span>
+        <span className="font-semibold text-white">ระบบ Auto-Delivery & Auto-Payout เปิดทำงานปกติ:</span> 
+        <span className="text-[#DDDDDD]/90">จัดส่งไอดีและตัดโอนแบ่งเงินให้คนขายใน 3.2 วินาที</span>
+        <button 
+          onClick={onOpenFinancial}
+          className="inline-flex items-center text-white font-bold bg-[#F05454] hover:bg-[#d94343] px-2.5 py-0.5 rounded text-[11px] shadow-sm ml-2 cursor-pointer transition-colors"
+        >
+          📊 ดูระบบบัญชีแยกเงิน (Admin View) <ChevronRight className="w-3 h-3 ml-0.5" />
+        </button>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

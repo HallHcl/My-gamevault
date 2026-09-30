@@ -17,6 +17,11 @@ export interface Product {
   deliveryType: DeliveryType;
   description: string;
   features: string[];
+  seller?: {
+    name: string;
+    promptPay: string;
+    ratePercent: number; // e.g. 10%
+  };
   sampleAsset?: {
     type: 'credential' | 'download_link' | 'code';
     content: string;
@@ -29,6 +34,22 @@ export interface CartItem {
   quantity: number;
 }
 
+export interface TransactionSplit {
+  id: string;
+  orderId: string;
+  itemTitle: string;
+  totalAmount: number;    // e.g. 500
+  adminProfit: number;    // e.g. 450 (90%)
+  adminRate: number;      // 90
+  sellerPayout: number;   // e.g. 50 (10%)
+  sellerRate: number;     // 10
+  sellerName: string;
+  sellerPromptPay: string;
+  payoutStatus: 'completed' | 'processing' | 'held';
+  payoutRef: string;
+  timestamp: string;
+}
+
 export interface Order {
   id: string;
   items: CartItem[];
@@ -36,6 +57,7 @@ export interface Order {
   paymentMethod: 'promptpay' | 'truemoney' | 'crypto';
   status: 'pending' | 'completed';
   createdAt: string;
+  splitInfo?: TransactionSplit[];
   deliveredAssets?: {
     productId: string;
     productTitle: string;

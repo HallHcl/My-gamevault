@@ -8,9 +8,11 @@ import { QuickViewModal } from '../components/QuickViewModal';
 import { CartDrawer } from '../components/CartDrawer';
 import { CheckoutModal } from '../components/CheckoutModal';
 import { TopUpModal } from '../components/TopUpModal';
+import { AdminFinancialModal } from '../components/AdminFinancialModal';
 import { Footer } from '../components/Footer';
 import { mockProducts } from '../data/mockProducts';
-import { Product, ProductCategory, CartItem } from '../types';
+import { Product, ProductCategory, CartItem, TransactionSplit } from '../types';
+import { calculateRevenueSplit } from '../lib/payoutEngine';
 import { 
   Sparkles, 
   ShieldCheck, 
@@ -30,6 +32,14 @@ export default function HomePage() {
   // Wallet & Top-up state
   const [walletBalance, setWalletBalance] = useState<number>(1500);
   const [isTopUpOpen, setIsTopUpOpen] = useState(false);
+
+  // Admin Financial & Auto-Payout Split Ledger State
+  const [isAdminFinancialOpen, setIsAdminFinancialOpen] = useState(false);
+  const [splits, setSplits] = useState<TransactionSplit[]>([
+    calculateRevenueSplit('GV-ORD-5001', 'ROBLOX [Blox Fruits] - ผล Kitsune ถาวร', 500, 'นายเอกชัย (คนฝากขาย)', '089-XXX-1249', 10, 90),
+    calculateRevenueSplit('GV-ORD-5002', 'FIVEM MACRO - สลับปืนไว Fast Switch', 390, 'นายวีระ (Dev FiveM)', '095-XXX-8812', 10, 90),
+    calculateRevenueSplit('GV-ORD-5003', 'ROBLOX [Pet Sim 99] - 100M เพชร', 290, 'นายณัฐ (คนฟาร์ม)', '062-XXX-4401', 10, 90),
+  ]);
 
   // Cart state
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -145,6 +155,7 @@ export default function HomePage() {
         balance={walletBalance}
         onOpenCart={() => setIsCartOpen(true)}
         onOpenTopUp={() => setIsTopUpOpen(true)}
+        onOpenFinancial={() => setIsAdminFinancialOpen(true)}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         selectedCategory={selectedCategory}
@@ -310,7 +321,21 @@ export default function HomePage() {
         onClose={() => setIsCheckoutOpen(false)}
         items={cart.length > 0 ? cart : (quickViewProduct ? [{ product: quickViewProduct, quantity: 1 }] : [])}
         totalAmount={cart.length > 0 ? totalAmount : (quickViewProduct ? quickViewProduct.price : 0)}
-        onClearCart={() => setCart([])}
+        onClearCart={() => {
+          const paidAmount = cart.length > 0 ? totalAmount : (quickViewProduct ? quickViewProduct.price : 500);
+          const itemName = cart[0]?.product.title || quickViewProduct?.title || 'ไอดี Roblox / มาโคร FiveM';
+          const newSplit = calculateRevenueSplit(
+            `GV-ORD-${Math.floor(1000 + Math.random() * 9000)}`,
+            itemName,
+            paidAmount,
+            'นายสมชาย ฝากขาย (Seller)',
+            '089-XXX-1249',
+            10, // 10%
+            90  // 90%
+          );
+          setSplits((prev) => [newSplit, ...prev]);
+          setCart([]);
+        }}
       />
 
       <TopUpModal
@@ -319,6 +344,17 @@ export default function HomePage() {
         onSuccess={(amt) => {
           setWalletBalance((prev) => prev + amt);
           setToastMessage(`เติมเงินเข้ากระเป๋า ฿${amt.toLocaleString()} สำเร็จเรียบร้อย!`);
+          setTimeout(() => setToastMessage(null), 3000);
+        }}
+      />
+
+      <AdminFinancialModal
+        isOpen={isAdminFinancialOpen}
+        onClose={() => setIsAdminFinancialOpen(false)}
+        splits={splits}
+        onAddSplit={(newSplit) => {
+          setSplits((prev) => [newSplit, ...prev]);
+          setToastMessage(`บันทึกยอดขาย ฿${newSplit.totalAmount.toLocaleString()} และโอน Auto ฿${newSplit.sellerPayout.toLocaleString()} สำเร็จ!`);
           setTimeout(() => setToastMessage(null), 3000);
         }}
       />
