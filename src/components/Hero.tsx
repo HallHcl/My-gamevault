@@ -32,15 +32,15 @@ export const Hero: React.FC<HeroProps> = ({ onSelectCategory }) => {
             </div>
 
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
-              ปลดล็อกไอดีเกม & สคริปต์ <br />
+              ปลดล็อกไอดี Roblox & มาโคร FiveM <br />
               <span className="text-[#F05454]">
                 ส่งออโต้ทันทีใน 3 วินาที
               </span>
             </h1>
 
             <p className="mt-4 text-base sm:text-lg text-[#DDDDDD] leading-relaxed max-w-2xl font-normal">
-              ศูนย์รวมไอดีเกมแท้มือเดียว สกินหายาก และมาโครลดแรงดีดสำหรับคอ FPS 
-              ชำระเงินผ่าน PromptPay สแกนจ่ายแล้วรับ User/Password และลิงก์ดาวน์โหลดเข้ารหัสความปลอดภัยระดับธนาคาร
+              ศูนย์รวมไอดี Roblox แมพดัง (Blox Fruits, King Legacy, Pet Sim 99, Anime Defenders) ไอเทมผลปีศาจแท้ และสคริปต์มาโคร FiveM สลับปืนไว/ฟาร์มออโต้ 24 ชม.
+              ชำระเงินผ่าน PromptPay สแกนจ่ายแล้วรับข้อมูลปลดล็อกบนหน้าจอทันที
             </p>
 
             {/* CTA Buttons */}
@@ -49,7 +49,7 @@ export const Hero: React.FC<HeroProps> = ({ onSelectCategory }) => {
                 onClick={() => onSelectCategory('account')}
                 className="px-6 py-3.5 rounded-xl font-bold text-sm bg-[#F05454] hover:bg-[#d94343] text-white shadow-lg shadow-[#F05454]/30 hover:shadow-[#F05454]/40 transition-all flex items-center gap-2 group"
               >
-                <span>เลือกดูไอดีเกมสุดแรร์</span>
+                <span>เลือกดูไอดี Roblox แมพดัง</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
 
@@ -58,7 +58,7 @@ export const Hero: React.FC<HeroProps> = ({ onSelectCategory }) => {
                 className="px-6 py-3.5 rounded-xl font-semibold text-sm bg-[#30475E] hover:bg-[#30475E]/80 text-[#DDDDDD] border border-[#30475E] transition-all flex items-center gap-2"
               >
                 <KeyRound className="w-4 h-4 text-[#F05454]" />
-                <span>มาโคร & สคริปต์ FPS</span>
+                <span>ดูมาโคร FiveM ยอดฮิต</span>
               </button>
             </div>
 

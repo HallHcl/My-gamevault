@@ -73,7 +73,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               type="text"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              placeholder="ค้นหาไอดี Valorant, Genshin, สคริปต์มาโคร..."
+              placeholder="ค้นหาไอดี Blox Fruits, ผล Kitsune, เพชร Pet Sim, มาโคร FiveM..."
               className="w-full pl-10 pr-12 py-2.5 bg-[#1a1f27] border border-[#30475E] rounded-xl text-sm text-[#DDDDDD] placeholder-[#DDDDDD]/40 focus:outline-none focus:border-[#F05454] focus:ring-1 focus:ring-[#F05454] transition-all shadow-inner"
             />
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -146,7 +146,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             <ShieldCheck className="w-3.5 h-3.5 text-[#F05454]" />
-            🎮 ไอดีเกมพร้อมเล่น (Accounts)
+            🎮 ไอดี Roblox แมพดัง (Accounts)
           </button>
           <button
             onClick={() => onSelectCategory('item')}
@@ -157,7 +157,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             <Flame className="w-3.5 h-3.5 text-amber-400" />
-            💎 ไอเทมในเกม & สกิน (Items)
+            💎 ไอเทมใน Roblox (Roblox Items)
           </button>
           <button
             onClick={() => onSelectCategory('macro')}
@@ -167,7 +167,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 : 'text-[#DDDDDD]/70 hover:text-white hover:bg-[#30475E]/60'
             }`}
           >
-            ⚡ มาโคร & สคริปต์ (Macros & Scripts)
+            ⚡ มาโคร FiveM (FiveM Macros)
           </button>
         </div>
       </div>

@@ -34,11 +34,11 @@ export const Footer: React.FC = () => {
           <div>
             <h4 className="text-sm font-bold text-white mb-4">หมวดหมู่ยอดนิยม</h4>
             <ul className="space-y-2.5">
-              <li><a href="#" className="hover:text-[#F05454] transition-colors">ไอดีเกม Valorant แท้</a></li>
-              <li><a href="#" className="hover:text-[#F05454] transition-colors">ไอดี Genshin Impact C6</a></li>
-              <li><a href="#" className="hover:text-[#F05454] transition-colors">คลังเกม Steam ราคาประหยัด</a></li>
-              <li><a href="#" className="hover:text-[#F05454] transition-colors">สคริปต์มาโคร Logitech G-Hub</a></li>
-              <li><a href="#" className="hover:text-[#F05454] transition-colors">เติม Robux เรทพิเศษ 10,000 R$</a></li>
+              <li><a href="#" className="hover:text-[#F05454] transition-colors">ไอดี Blox Fruits ผล Kitsune ถาวร</a></li>
+              <li><a href="#" className="hover:text-[#F05454] transition-colors">ไอดี King Legacy / Anime Defenders</a></li>
+              <li><a href="#" className="hover:text-[#F05454] transition-colors">เพชร Pet Sim 99 & ผลปีศาจสด</a></li>
+              <li><a href="#" className="hover:text-[#F05454] transition-colors">มาโครสลับปืนไว FiveM Fast Switch</a></li>
+              <li><a href="#" className="hover:text-[#F05454] transition-colors">บอทฟาร์ม FiveM Auto-Mining 24 ชม.</a></li>
             </ul>
           </div>
 
