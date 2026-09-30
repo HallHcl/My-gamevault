@@ -125,11 +125,11 @@ export default function HomePage() {
   const totalAmount = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
 
   return (
-    <div className="min-h-screen bg-[#08090d] text-slate-100 flex flex-col relative selection:bg-violet-600 selection:text-white">
+    <div className="min-h-screen bg-[#222831] text-[#DDDDDD] flex flex-col relative selection:bg-[#F05454] selection:text-white">
       {/* Toast Alert */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-xl bg-slate-900 border border-violet-500/50 shadow-2xl text-xs text-white animate-bounce">
-          <Zap className="w-4 h-4 text-cyan-400" />
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-xl bg-[#1a1f27] border border-[#F05454]/60 shadow-2xl text-xs text-white animate-bounce">
+          <Zap className="w-4 h-4 text-[#F05454]" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -150,9 +150,9 @@ export default function HomePage() {
       {/* Catalog & Filter Section */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-1">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-white/10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-[#30475E]">
           <div>
-            <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-[#F05454] text-xs font-bold uppercase tracking-wider">
               <Sparkles className="w-4 h-4" />
               <span>คลังสินค้าเกมดิจิทัลที่ผ่านการตรวจสอบ</span>
             </div>
@@ -164,31 +164,31 @@ export default function HomePage() {
           {/* Filters & Sorting */}
           <div className="flex flex-wrap items-center gap-3">
             {/* Game Selector */}
-            <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs">
-              <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" />
+            <div className="flex items-center gap-1.5 bg-[#1a1f27] border border-[#30475E] rounded-xl px-3 py-2 text-xs">
+              <SlidersHorizontal className="w-3.5 h-3.5 text-[#DDDDDD]/60" />
               <select
                 value={selectedGame}
                 onChange={(e) => setSelectedGame(e.target.value)}
-                className="bg-transparent text-slate-200 focus:outline-none cursor-pointer"
+                className="bg-transparent text-[#DDDDDD] focus:outline-none cursor-pointer"
               >
-                <option value="all" className="bg-slate-900">ทุกเกม (All Games)</option>
+                <option value="all" className="bg-[#222831]">ทุกเกม (All Games)</option>
                 {gamesList.filter((g) => g !== 'all').map((g) => (
-                  <option key={g} value={g} className="bg-slate-900">{g}</option>
+                  <option key={g} value={g} className="bg-[#222831]">{g}</option>
                 ))}
               </select>
             </div>
 
             {/* Sorting */}
-            <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs">
-              <ArrowUpDown className="w-3.5 h-3.5 text-slate-400" />
+            <div className="flex items-center gap-1.5 bg-[#1a1f27] border border-[#30475E] rounded-xl px-3 py-2 text-xs">
+              <ArrowUpDown className="w-3.5 h-3.5 text-[#DDDDDD]/60" />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="bg-transparent text-slate-200 focus:outline-none cursor-pointer"
+                className="bg-transparent text-[#DDDDDD] focus:outline-none cursor-pointer"
               >
-                <option value="popular" className="bg-slate-900">ยอดนิยมสูงสุด</option>
-                <option value="price-asc" className="bg-slate-900">ราคา: ต่ำไปสูง</option>
-                <option value="price-desc" className="bg-slate-900">ราคา: สูงไปต่ำ</option>
+                <option value="popular" className="bg-[#222831]">ยอดนิยมสูงสุด</option>
+                <option value="price-asc" className="bg-[#222831]">ราคา: ต่ำไปสูง</option>
+                <option value="price-desc" className="bg-[#222831]">ราคา: สูงไปต่ำ</option>
               </select>
             </div>
           </div>
@@ -196,10 +196,10 @@ export default function HomePage() {
 
         {/* Product Grid */}
         {filteredProducts.length === 0 ? (
-          <div className="py-20 text-center text-slate-400">
-            <HelpCircle className="w-12 h-12 mx-auto text-slate-600 mb-3" />
+          <div className="py-20 text-center text-[#DDDDDD]/60">
+            <HelpCircle className="w-12 h-12 mx-auto text-[#30475E] mb-3" />
             <h3 className="text-lg font-bold text-white">ไม่พบสินค้าที่คุณค้นหา</h3>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-[#DDDDDD]/60 mt-1">
               ลองปรับคำค้นหา หรือเลือกหมวดหมู่อื่นเพื่อค้นหาสินค้าใหม่
             </p>
             <button
@@ -208,7 +208,7 @@ export default function HomePage() {
                 setSelectedGame('all');
                 setSearchQuery('');
               }}
-              className="mt-4 px-4 py-2 rounded-xl bg-violet-600 text-white text-xs font-semibold hover:bg-violet-500 transition-colors"
+              className="mt-4 px-4 py-2 rounded-xl bg-[#F05454] hover:bg-[#d94343] text-white text-xs font-semibold transition-colors"
             >
               ล้างตัวกรองทั้งหมด
             </button>
@@ -228,48 +228,48 @@ export default function HomePage() {
         )}
 
         {/* Value Proposition & Security Architecture Grid */}
-        <section className="mt-20 pt-12 border-t border-white/10">
+        <section className="mt-20 pt-12 border-t border-[#30475E]">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-xs font-bold uppercase tracking-wider text-cyan-400">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#F05454]">
               Reliable & Automated Architecture
             </span>
             <h3 className="text-2xl sm:text-3xl font-black text-white mt-1">
               ทำไมเกมเมอร์กว่า 45,000 คนจึงเลือกเรา?
             </h3>
-            <p className="text-xs sm:text-sm text-slate-400 mt-2 font-normal">
+            <p className="text-xs sm:text-sm text-[#DDDDDD]/70 mt-2 font-normal">
               โครงสร้างระบบถูกออกแบบมาเพื่อความเร็วและความปลอดภัยของข้อมูลดิจิทัล 100%
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 rounded-2xl glass-card border border-white/5 space-y-3">
-              <div className="w-12 h-12 rounded-xl bg-violet-600/20 border border-violet-500/30 flex items-center justify-center">
-                <Zap className="w-6 h-6 text-violet-400" />
+            <div className="p-6 rounded-2xl bg-[#222831] border border-[#30475E] space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-[#30475E] border border-[#30475E] flex items-center justify-center">
+                <Zap className="w-6 h-6 text-[#F05454]" />
               </div>
               <h4 className="text-base font-bold text-white">Instant Auto-Delivery</h4>
-              <p className="text-xs text-slate-400 leading-relaxed font-light">
+              <p className="text-xs text-[#DDDDDD]/70 leading-relaxed font-light">
                 ระบบเชื่อมต่อ Webhook ชำระเงิน ตรวจสอบสลิปผ่าน AI 
                 และถอดรหัสรหัสผ่านหรือส่งลิงก์ดาวน์โหลดขึ้นจอใน 3 วินาที ไม่ต้องรอแอดมินตอบแชท
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl glass-card border border-white/5 space-y-3">
-              <div className="w-12 h-12 rounded-xl bg-cyan-600/20 border border-cyan-500/30 flex items-center justify-center">
-                <Lock className="w-6 h-6 text-cyan-400" />
+            <div className="p-6 rounded-2xl bg-[#222831] border border-[#30475E] space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-[#30475E] border border-[#30475E] flex items-center justify-center">
+                <Lock className="w-6 h-6 text-[#DDDDDD]" />
               </div>
               <h4 className="text-base font-bold text-white">AES-256 Vault Encryption</h4>
-              <p className="text-xs text-slate-400 leading-relaxed font-light">
+              <p className="text-xs text-[#DDDDDD]/70 leading-relaxed font-light">
                 คลังจัดเก็บไอดีและไฟล์สคริปต์ถูกเข้ารหัสแบบ End-to-End บน Private Cloud 
                 มีเพียงผู้สั่งซื้อที่ชำระเงินสำเร็จเท่านั้นที่ได้รับ Decryption Key
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl glass-card border border-white/5 space-y-3">
-              <div className="w-12 h-12 rounded-xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center">
-                <ShieldCheck className="w-6 h-6 text-emerald-400" />
+            <div className="p-6 rounded-2xl bg-[#222831] border border-[#30475E] space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-[#30475E] border border-[#30475E] flex items-center justify-center">
+                <ShieldCheck className="w-6 h-6 text-[#F05454]" />
               </div>
               <h4 className="text-base font-bold text-white">Lifetime Warranty & Anti-Ban</h4>
-              <p className="text-xs text-slate-400 leading-relaxed font-light">
+              <p className="text-xs text-[#DDDDDD]/70 leading-relaxed font-light">
                 ไอดีทุกชิ้นเป็นเมลสะอาดมือเดียว พร้อมรับประกันไม่ดึงคืนตลอดชีพ 
                 สคริปต์มาโครทำงานระดับ Hardware Driver ปลอดภัยจากระบบตรวจจับ 100%
               </p>

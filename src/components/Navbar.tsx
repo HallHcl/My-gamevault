@@ -31,13 +31,13 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSelectCategory
 }) => {
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-[#090b11]/90 backdrop-blur-md">
-      {/* Top micro announcement bar */}
-      <div className="bg-gradient-to-r from-violet-900/60 via-indigo-900/50 to-cyan-900/60 border-b border-white/5 px-4 py-1.5 text-xs text-center text-slate-300 flex items-center justify-center gap-2">
-        <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-        <span className="font-medium text-emerald-300">ระบบ Auto-Delivery เปิดทำงานปกติ:</span> 
-        <span>จัดส่งไอดีและสคริปต์ได้ทันที 24 ชม. เฉลี่ย 3.2 วินาที</span>
-        <span className="hidden sm:inline-flex items-center text-violet-300 font-semibold cursor-pointer hover:underline ml-2">
+    <header className="sticky top-0 z-40 w-full border-b border-[#30475E]/60 bg-[#222831]/95 backdrop-blur-md">
+      {/* Top announcement bar */}
+      <div className="bg-[#30475E]/80 border-b border-[#30475E] px-4 py-1.5 text-xs text-center text-[#DDDDDD] flex items-center justify-center gap-2">
+        <span className="flex h-2 w-2 rounded-full bg-[#F05454] animate-pulse" />
+        <span className="font-semibold text-white">ระบบ Auto-Delivery เปิดทำงานปกติ:</span> 
+        <span className="text-[#DDDDDD]/90">จัดส่งไอดีและสคริปต์ได้ทันที 24 ชม. เฉลี่ย 3.2 วินาที</span>
+        <span className="hidden sm:inline-flex items-center text-[#F05454] font-semibold cursor-pointer hover:underline ml-2">
           ดูสถิติระบบ <ChevronRight className="w-3 h-3 ml-0.5" />
         </span>
       </div>
@@ -46,38 +46,38 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center justify-between h-20 gap-4">
           {/* Logo */}
           <div className="flex items-center gap-3 cursor-pointer group" onClick={() => onSelectCategory('all')}>
-            <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-violet-600 via-fuchsia-600 to-cyan-400 p-[2px] shadow-lg shadow-violet-600/30 group-hover:scale-105 transition-transform">
-              <div className="w-full h-full bg-[#0a0c16] rounded-[10px] flex items-center justify-center">
-                <Gamepad2 className="w-6 h-6 text-violet-400 group-hover:text-cyan-300 transition-colors" />
+            <div className="w-11 h-11 rounded-xl bg-[#F05454] p-[2px] shadow-lg shadow-[#F05454]/25 group-hover:scale-105 transition-transform">
+              <div className="w-full h-full bg-[#222831] rounded-[10px] flex items-center justify-center">
+                <Gamepad2 className="w-6 h-6 text-[#F05454] group-hover:text-white transition-colors" />
               </div>
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <span className="text-xl font-black tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-violet-300">
-                  MY-GAME<span className="text-cyan-400">VAULT</span>
+                <span className="text-xl font-black tracking-wider text-white">
+                  MY-GAME<span className="text-[#F05454]">VAULT</span>
                 </span>
-                <span className="px-1.5 py-0.5 text-[10px] font-bold uppercase rounded bg-violet-500/20 text-violet-300 border border-violet-500/30">
+                <span className="px-1.5 py-0.5 text-[10px] font-bold uppercase rounded bg-[#F05454]/20 text-[#F05454] border border-[#F05454]/30">
                   PRO
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400 font-normal">ตลาดซื้อขายไอดี & ดิจิทัลแอสเซทเกม</p>
+              <p className="text-[11px] text-[#DDDDDD]/70 font-normal">ตลาดซื้อขายไอดี & ดิจิทัลแอสเซทเกม</p>
             </div>
           </div>
 
           {/* Search bar */}
           <div className="hidden md:flex flex-1 max-w-md relative">
             <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-              <Search className="h-4 w-4 text-slate-400" />
+              <Search className="h-4 w-4 text-[#DDDDDD]/60" />
             </div>
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder="ค้นหาไอดี Valorant, Genshin, สคริปต์มาโคร..."
-              className="w-full pl-10 pr-12 py-2.5 bg-slate-900/80 border border-slate-700/60 rounded-xl text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all shadow-inner"
+              className="w-full pl-10 pr-12 py-2.5 bg-[#1a1f27] border border-[#30475E] rounded-xl text-sm text-[#DDDDDD] placeholder-[#DDDDDD]/40 focus:outline-none focus:border-[#F05454] focus:ring-1 focus:ring-[#F05454] transition-all shadow-inner"
             />
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-              <kbd className="px-1.5 py-0.5 text-[10px] font-mono text-slate-400 bg-slate-800 border border-slate-700 rounded">
+              <kbd className="px-1.5 py-0.5 text-[10px] font-mono text-[#DDDDDD]/60 bg-[#30475E] border border-[#30475E]/80 rounded">
                 Ctrl K
               </kbd>
             </div>
@@ -86,15 +86,15 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Right Actions: Wallet, Cart, Account */}
           <div className="flex items-center gap-3">
             {/* Wallet balance simulation */}
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-xs shadow-sm">
-              <Wallet className="w-4 h-4 text-emerald-400" />
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#1a1f27] border border-[#30475E] text-xs shadow-sm">
+              <Wallet className="w-4 h-4 text-[#F05454]" />
               <div>
-                <span className="text-slate-400 text-[10px] block leading-none">เครดิตคงเหลือ</span>
-                <span className="text-emerald-400 font-bold text-sm">฿ 1,500.00</span>
+                <span className="text-[#DDDDDD]/60 text-[10px] block leading-none">เครดิตคงเหลือ</span>
+                <span className="text-white font-bold text-sm">฿ 1,500.00</span>
               </div>
               <button 
                 onClick={() => alert('จำลองหน้าต่างเติมเงิน (TrueMoney / PromptPay / บัตรเครดิต)')}
-                className="ml-1 px-2 py-1 text-[11px] bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 font-semibold rounded-md border border-emerald-500/30 transition-colors"
+                className="ml-1 px-2 py-1 text-[11px] bg-[#F05454]/15 hover:bg-[#F05454]/25 text-[#F05454] font-semibold rounded-md border border-[#F05454]/30 transition-colors"
               >
                 + เติมเงิน
               </button>
@@ -103,12 +103,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Cart Button */}
             <button
               onClick={onOpenCart}
-              className="relative p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/70 text-slate-200 transition-all hover:border-violet-500/50"
+              className="relative p-2.5 rounded-xl bg-[#30475E]/60 hover:bg-[#30475E] border border-[#30475E] text-[#DDDDDD] hover:text-white transition-all hover:border-[#F05454]/50"
               aria-label="ตะกร้าสินค้า"
             >
               <ShoppingCart className="w-5 h-5" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-600 text-[11px] font-bold text-white shadow-lg animate-bounce">
+                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#F05454] text-[11px] font-bold text-white shadow-lg animate-bounce">
                   {cartCount}
                 </span>
               )}
@@ -116,23 +116,23 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Profile */}
             <div className="flex items-center gap-2 pl-1 cursor-pointer">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-violet-600 to-indigo-600 p-[1px]">
-                <div className="w-full h-full bg-slate-950 rounded-[11px] flex items-center justify-center">
-                  <User className="w-5 h-5 text-violet-300" />
+              <div className="w-9 h-9 rounded-xl bg-[#30475E] border border-[#30475E] hover:border-[#F05454] transition-colors p-[1px]">
+                <div className="w-full h-full bg-[#1a1f27] rounded-[10px] flex items-center justify-center">
+                  <User className="w-5 h-5 text-[#DDDDDD]" />
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Category Quick Tabs on Mobile/Subheader */}
-        <div className="flex items-center gap-2 overflow-x-auto py-2.5 border-t border-white/5 scrollbar-none text-xs">
+        {/* Category Quick Tabs */}
+        <div className="flex items-center gap-2 overflow-x-auto py-2.5 border-t border-[#30475E]/40 scrollbar-none text-xs">
           <button
             onClick={() => onSelectCategory('all')}
             className={`px-3.5 py-1.5 rounded-lg font-medium whitespace-nowrap transition-all ${
               selectedCategory === 'all'
-                ? 'bg-violet-600 text-white shadow-md shadow-violet-600/30'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                ? 'bg-[#F05454] text-white shadow-md shadow-[#F05454]/30'
+                : 'text-[#DDDDDD]/70 hover:text-white hover:bg-[#30475E]/60'
             }`}
           >
             🔥 ทั้งหมด
@@ -141,19 +141,19 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => onSelectCategory('account')}
             className={`px-3.5 py-1.5 rounded-lg font-medium whitespace-nowrap transition-all flex items-center gap-1.5 ${
               selectedCategory === 'account'
-                ? 'bg-violet-600 text-white shadow-md shadow-violet-600/30'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                ? 'bg-[#F05454] text-white shadow-md shadow-[#F05454]/30'
+                : 'text-[#DDDDDD]/70 hover:text-white hover:bg-[#30475E]/60'
             }`}
           >
-            <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
+            <ShieldCheck className="w-3.5 h-3.5 text-[#F05454]" />
             🎮 ไอดีเกมพร้อมเล่น (Accounts)
           </button>
           <button
             onClick={() => onSelectCategory('item')}
             className={`px-3.5 py-1.5 rounded-lg font-medium whitespace-nowrap transition-all flex items-center gap-1.5 ${
               selectedCategory === 'item'
-                ? 'bg-violet-600 text-white shadow-md shadow-violet-600/30'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                ? 'bg-[#F05454] text-white shadow-md shadow-[#F05454]/30'
+                : 'text-[#DDDDDD]/70 hover:text-white hover:bg-[#30475E]/60'
             }`}
           >
             <Flame className="w-3.5 h-3.5 text-amber-400" />
@@ -163,8 +163,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => onSelectCategory('macro')}
             className={`px-3.5 py-1.5 rounded-lg font-medium whitespace-nowrap transition-all flex items-center gap-1.5 ${
               selectedCategory === 'macro'
-                ? 'bg-violet-600 text-white shadow-md shadow-violet-600/30'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                ? 'bg-[#F05454] text-white shadow-md shadow-[#F05454]/30'
+                : 'text-[#DDDDDD]/70 hover:text-white hover:bg-[#30475E]/60'
             }`}
           >
             ⚡ มาโคร & สคริปต์ (Macros & Scripts)

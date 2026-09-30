@@ -1,62 +1,57 @@
 @import "tailwindcss";
 
 :root {
-  --background: #090a0f;
-  --foreground: #f3f4f6;
-  --primary-glow: conic-gradient(
-    from 180deg at 50% 50%,
-    #16abff33 0deg,
-    #0885ff33 55deg,
-    #54d6ff33 120deg,
-    #0071ff33 160deg,
-    transparent 360deg
-  );
+  --background: #222831;
+  --foreground: #DDDDDD;
+  --card-bg: #30475E;
+  --accent: #F05454;
+  --accent-hover: #d94343;
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
+  background-color: #222831;
+  color: #DDDDDD;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   overflow-x: hidden;
 }
 
-/* Custom Scrollbar for gaming vibe */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0b0d14;
+  background: #1a1e26;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2a2f45;
+  background: #30475E;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #6366f1;
+  background: #F05454;
 }
 
-/* Glassmorphism helpers */
+/* Glassmorphism with New Palette */
 .glass-panel {
-  background: rgba(18, 20, 29, 0.75);
+  background: rgba(48, 71, 94, 0.3);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(221, 221, 221, 0.12);
 }
 
 .glass-card {
-  background: linear-gradient(135deg, rgba(23, 27, 44, 0.8) 0%, rgba(15, 17, 26, 0.9) 100%);
+  background: linear-gradient(135deg, rgba(48, 71, 94, 0.45) 0%, rgba(34, 40, 49, 0.9) 100%);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(48, 71, 94, 0.6);
 }
 
-.neon-border-glow {
-  box-shadow: 0 0 25px -5px rgba(124, 58, 237, 0.35);
+.glow-coral {
+  box-shadow: 0 0 25px -3px rgba(240, 84, 84, 0.35);
 }
 
-.neon-cyan-glow {
-  box-shadow: 0 0 20px -3px rgba(6, 182, 212, 0.35);
+.glow-navy {
+  box-shadow: 0 0 20px -3px rgba(48, 71, 94, 0.5);
 }

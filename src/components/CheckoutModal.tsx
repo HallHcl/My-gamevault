@@ -66,13 +66,13 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in">
       <div 
-        className="relative w-full max-w-lg bg-[#0e111a] border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]"
+        className="relative w-full max-w-lg bg-[#222831] border border-[#30475E] rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between bg-slate-950/70">
+        <div className="p-4 sm:p-5 border-b border-[#30475E] flex items-center justify-between bg-[#1a1f27]">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-cyan-400" />
+            <ShieldCheck className="w-5 h-5 text-[#F05454]" />
             <h3 className="text-base font-bold text-white">
               {step === 'success' ? 'จัดส่งสินค้าดิจิทัลสำเร็จ' : 'ระบบชำระเงิน PromptPay QR'}
             </h3>
@@ -80,7 +80,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           {step !== 'processing' && (
             <button
               onClick={onClose}
-              className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              className="p-1 rounded-lg text-[#DDDDDD]/70 hover:text-white hover:bg-[#30475E] transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -92,9 +92,9 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           {step === 'payment' && (
             <div className="flex flex-col items-center text-center space-y-4">
               {/* Payment Details */}
-              <div className="w-full p-3 rounded-xl bg-slate-900/80 border border-white/5 flex items-center justify-between text-xs">
-                <span className="text-slate-400">เลขอ้างอิงคำสั่งซื้อ:</span>
-                <span className="font-mono text-cyan-300 font-bold">GV-2026-98124</span>
+              <div className="w-full p-3 rounded-xl bg-[#1a1f27] border border-[#30475E] flex items-center justify-between text-xs">
+                <span className="text-[#DDDDDD]/70">เลขอ้างอิงคำสั่งซื้อ:</span>
+                <span className="font-mono text-[#F05454] font-bold">GV-2026-98124</span>
               </div>
 
               {/* QR Code Card */}
@@ -121,10 +121,10 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
               {/* Countdown & Instructions */}
               <div className="space-y-1">
-                <p className="text-xs text-slate-400">
-                  กรุณาสแกนจ่ายภายในเวลา: <span className="font-mono font-bold text-rose-400">{formattedTime}</span>
+                <p className="text-xs text-[#DDDDDD]">
+                  กรุณาสแกนจ่ายภายในเวลา: <span className="font-mono font-bold text-[#F05454]">{formattedTime}</span>
                 </p>
-                <p className="text-[11px] text-slate-500">
+                <p className="text-[11px] text-[#DDDDDD]/60">
                   ระบบจะตรวจจับสลิปและปลดล็อกข้อมูลส่งมอบทันทีอัตโนมัติ
                 </p>
               </div>
@@ -132,7 +132,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               {/* Mock Trigger Button */}
               <button
                 onClick={handleSimulatePayment}
-                className="w-full py-3.5 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white shadow-lg shadow-emerald-600/30 transition-all flex items-center justify-center gap-2 mt-2"
+                className="w-full py-3.5 px-4 rounded-xl font-bold text-sm bg-[#F05454] hover:bg-[#d94343] text-white shadow-lg shadow-[#F05454]/30 transition-all flex items-center justify-center gap-2 mt-2"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>จำลองการชำระเงินสำเร็จ (Simulate Instant Delivery)</span>
@@ -142,9 +142,9 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
           {step === 'processing' && (
             <div className="py-12 flex flex-col items-center text-center space-y-4">
-              <div className="w-14 h-14 rounded-full border-4 border-violet-500/20 border-t-cyan-400 animate-spin" />
+              <div className="w-14 h-14 rounded-full border-4 border-[#30475E] border-t-[#F05454] animate-spin" />
               <h4 className="text-base font-bold text-white">กำลังยืนยันยอดเงินและถอดรหัสข้อมูลดิจิทัล...</h4>
-              <p className="text-xs text-slate-400 max-w-xs">
+              <p className="text-xs text-[#DDDDDD]/70 max-w-xs">
                 ระบบ Secure Vault กำลังทำการจัดสรรไอดีและสร้างลิงก์ดาวน์โหลดที่ปลอดภัยสำหรับคุณ
               </p>
             </div>
@@ -153,13 +153,13 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           {step === 'success' && (
             <div className="space-y-5">
               {/* Success Badge */}
-              <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0">
-                  <CheckCircle2 className="w-6 h-6 text-emerald-400" />
+              <div className="p-4 rounded-xl bg-[#30475E]/40 border border-[#30475E] flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#F05454]/20 flex items-center justify-center shrink-0">
+                  <CheckCircle2 className="w-6 h-6 text-[#F05454]" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-emerald-300">ชำระเงินสำเร็จ & จัดส่งข้อมูลแล้ว!</h4>
-                  <p className="text-xs text-slate-300">
+                  <h4 className="text-sm font-bold text-white">ชำระเงินสำเร็จ & จัดส่งข้อมูลแล้ว!</h4>
+                  <p className="text-xs text-[#DDDDDD]/80">
                     ข้อมูลสินค้าดิจิทัลของคุณพร้อมใช้งานทันทีด้านล่างนี้
                   </p>
                 </div>
@@ -167,18 +167,18 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
               {/* Unlocked Credentials & Download Keys */}
               <div className="space-y-3">
-                <h5 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                  <Key className="w-3.5 h-3.5 text-cyan-400" />
+                <h5 className="text-xs font-bold text-[#DDDDDD] uppercase tracking-wider flex items-center gap-1.5">
+                  <Key className="w-3.5 h-3.5 text-[#F05454]" />
                   <span>ข้อมูลที่ได้รับมอบ (Digital Vault):</span>
                 </h5>
 
                 {items.map((item, idx) => (
-                  <div key={idx} className="p-4 rounded-xl bg-slate-900 border border-white/10 space-y-3">
-                    <div className="flex items-center justify-between border-b border-white/5 pb-2">
+                  <div key={idx} className="p-4 rounded-xl bg-[#1a1f27] border border-[#30475E] space-y-3">
+                    <div className="flex items-center justify-between border-b border-[#30475E]/60 pb-2">
                       <span className="text-xs font-bold text-white line-clamp-1">
                         {item.product.title}
                       </span>
-                      <span className="text-[10px] font-semibold text-cyan-400 uppercase bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/20">
+                      <span className="text-[10px] font-semibold text-[#F05454] uppercase bg-[#F05454]/10 px-2 py-0.5 rounded border border-[#F05454]/20">
                         {item.product.game}
                       </span>
                     </div>
@@ -186,15 +186,15 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     {/* Reveal Credentials or Links */}
                     {item.product.sampleAsset && (
                       <div className="space-y-2">
-                        <div className="relative p-3 rounded-lg bg-black/70 border border-slate-800 font-mono text-xs text-emerald-400 break-all whitespace-pre-wrap leading-relaxed">
+                        <div className="relative p-3 rounded-lg bg-[#222831] border border-[#30475E] font-mono text-xs text-[#DDDDDD] break-all whitespace-pre-wrap leading-relaxed">
                           {item.product.sampleAsset.content}
                           <button
                             onClick={() => handleCopyText(item.product.id, item.product.sampleAsset!.content)}
-                            className="absolute top-2 right-2 p-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+                            className="absolute top-2 right-2 p-1.5 rounded bg-[#30475E] hover:bg-[#30475E]/80 text-[#DDDDDD] transition-colors"
                             title="คัดลอกข้อมูล"
                           >
                             {copiedId === item.product.id ? (
-                              <Check className="w-3.5 h-3.5 text-emerald-400" />
+                              <Check className="w-3.5 h-3.5 text-[#F05454]" />
                             ) : (
                               <Copy className="w-3.5 h-3.5" />
                             )}
@@ -206,7 +206,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                             href={item.product.sampleAsset.content}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-600/30 hover:bg-cyan-600/40 text-cyan-300 text-xs font-bold border border-cyan-500/30 transition-colors"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#F05454] hover:bg-[#d94343] text-white text-xs font-bold transition-colors"
                           >
                             <Download className="w-3.5 h-3.5" />
                             <span>ดาวน์โหลดไฟล์สคริปต์ทันที</span>
@@ -214,8 +214,8 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                           </a>
                         )}
 
-                        <p className="text-[11px] text-amber-300/90 flex items-start gap-1">
-                          <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5 text-amber-400" />
+                        <p className="text-[11px] text-[#DDDDDD]/70 flex items-start gap-1">
+                          <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5 text-[#F05454]" />
                           <span>{item.product.sampleAsset.note}</span>
                         </p>
                       </div>
@@ -228,7 +228,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               <div className="pt-2">
                 <button
                   onClick={onClose}
-                  className="w-full py-3 rounded-xl font-bold text-xs sm:text-sm bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
+                  className="w-full py-3 rounded-xl font-bold text-xs sm:text-sm bg-[#30475E] hover:bg-[#30475E]/80 text-white transition-colors"
                 >
                   ปิดหน้าต่างและกลับไปยังหน้าหลัก
                 </button>
