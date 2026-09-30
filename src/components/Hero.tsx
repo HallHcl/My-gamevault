@@ -19,7 +19,7 @@ export const Hero: React.FC<HeroProps> = ({ onSelectCategory }) => {
           {/* Banner Graphic overlay */}
           <div 
             className="absolute inset-0 bg-cover bg-center opacity-25 mix-blend-luminosity scale-105 transform hover:scale-100 transition-transform duration-1000"
-            style={{ backgroundImage: `url('/images/hero-banner.jpg')` }}
+            style={{ backgroundImage: `url('${(process.env.NEXT_PUBLIC_BASE_PATH || '')}/images/hero-banner.jpg')` }}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#090b11] via-[#090b11]/90 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#090b11] via-transparent to-transparent" />
