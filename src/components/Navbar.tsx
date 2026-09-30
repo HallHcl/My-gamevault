@@ -15,7 +15,9 @@ import { ProductCategory } from '../types';
 
 interface NavbarProps {
   cartCount: number;
+  balance: number;
   onOpenCart: () => void;
+  onOpenTopUp: () => void;
   searchQuery: string;
   onSearchChange: (q: string) => void;
   selectedCategory: ProductCategory;
@@ -24,7 +26,9 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({
   cartCount,
+  balance,
   onOpenCart,
+  onOpenTopUp,
   searchQuery,
   onSearchChange,
   selectedCategory,
@@ -90,11 +94,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Wallet className="w-4 h-4 text-[#F05454]" />
               <div>
                 <span className="text-[#DDDDDD]/60 text-[10px] block leading-none">เครดิตคงเหลือ</span>
-                <span className="text-white font-bold text-sm">฿ 1,500.00</span>
+                <span className="text-white font-bold text-sm">฿ {balance.toLocaleString('th-TH', { minimumFractionDigits: 2 })}</span>
               </div>
               <button 
-                onClick={() => alert('จำลองหน้าต่างเติมเงิน (TrueMoney / PromptPay / บัตรเครดิต)')}
-                className="ml-1 px-2 py-1 text-[11px] bg-[#F05454]/15 hover:bg-[#F05454]/25 text-[#F05454] font-semibold rounded-md border border-[#F05454]/30 transition-colors"
+                onClick={onOpenTopUp}
+                className="ml-1 px-2 py-1 text-[11px] bg-[#F05454]/15 hover:bg-[#F05454]/25 text-[#F05454] font-semibold rounded-md border border-[#F05454]/30 transition-colors cursor-pointer"
               >
                 + เติมเงิน
               </button>

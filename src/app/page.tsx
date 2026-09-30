@@ -7,6 +7,7 @@ import { ProductCard } from '../components/ProductCard';
 import { QuickViewModal } from '../components/QuickViewModal';
 import { CartDrawer } from '../components/CartDrawer';
 import { CheckoutModal } from '../components/CheckoutModal';
+import { TopUpModal } from '../components/TopUpModal';
 import { Footer } from '../components/Footer';
 import { mockProducts } from '../data/mockProducts';
 import { Product, ProductCategory, CartItem } from '../types';
@@ -26,6 +27,10 @@ export default function HomePage() {
   const [selectedGame, setSelectedGame] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'popular' | 'price-asc' | 'price-desc'>('popular');
   
+  // Wallet & Top-up state
+  const [walletBalance, setWalletBalance] = useState<number>(1500);
+  const [isTopUpOpen, setIsTopUpOpen] = useState(false);
+
   // Cart state
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -137,7 +142,9 @@ export default function HomePage() {
       {/* Main Navigation */}
       <Navbar
         cartCount={totalCartCount}
+        balance={walletBalance}
         onOpenCart={() => setIsCartOpen(true)}
+        onOpenTopUp={() => setIsTopUpOpen(true)}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         selectedCategory={selectedCategory}
@@ -304,6 +311,16 @@ export default function HomePage() {
         items={cart.length > 0 ? cart : (quickViewProduct ? [{ product: quickViewProduct, quantity: 1 }] : [])}
         totalAmount={cart.length > 0 ? totalAmount : (quickViewProduct ? quickViewProduct.price : 0)}
         onClearCart={() => setCart([])}
+      />
+
+      <TopUpModal
+        isOpen={isTopUpOpen}
+        onClose={() => setIsTopUpOpen(false)}
+        onSuccess={(amt) => {
+          setWalletBalance((prev) => prev + amt);
+          setToastMessage(`เติมเงินเข้ากระเป๋า ฿${amt.toLocaleString()} สำเร็จเรียบร้อย!`);
+          setTimeout(() => setToastMessage(null), 3000);
+        }}
       />
     </div>
   );
