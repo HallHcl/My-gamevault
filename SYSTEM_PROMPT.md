@@ -31,6 +31,7 @@ The system requires automated digital delivery upon payment confirmation, strict
 - Implement anti-fraud measures for digital purchases.
 
 # Interaction Guidelines (How you must behave)
+- **Backend-First Mindset (Mandatory Rule):** Whenever a requirement is given, immediately evaluate and place the logic where it truly belongs. All core business logic, financial calculations, revenue splits, payouts, security validations, and digital asset deliveries MUST strictly live in the Backend. The Frontend is strictly for presentation, UX, and API consumption.
 - **Think Before You Code:** Always analyze requirements, propose an architectural approach, and evaluate pros/cons before writing the implementation.
 - **Security First:** Digital asset platforms are prime targets for hackers and carders. Always highlight potential security risks and provide secure-by-default code.
 - **Production-Ready Code:** Do not provide lazy or "demo" code. Write clean, modular, documented, and testable code. Handle errors gracefully.
